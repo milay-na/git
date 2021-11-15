@@ -1,0 +1,152 @@
+Tutoriel gît
+
+
+Introduction : 
+Git est un logiciel de gestion de versions décentralisé. C’est un logiciel libre créé par Linus Torvalds, auteur du noyau Linux, et distribué selon les termes de la licence publique générale GNU version 2. 
+Attention gît n’est pas la même chose que github ! 
+« GitHub, Inc. Is a provider of Internet hosting for software development and version control using Git. »
+Nous, on va utiliser github, pour gérer nos dépôts git, qui offre une vision graphique des dépôts, de gérer collaborativement ces dépôts sur une machine distante (les serveurs github) . ( Gardons néanmoins en tête pour l’avenir qu’il existe des versions libres de logiciel pour gérer des dépôts git.)
+
+Ça suffit la théorie j’ai envie de commencer, je sais Alex, on y va.
+
+1-	Installer gît sur vos PC.
+L’installation doit être assez simple, sur Linux comme sur Windows.
+
+Sur Windows, cette outil semble pratique : https://desktop.github.com/
+Il paraît qu’il y a un émulateur de terminal pour faire vos commandes gît. (J’avoue je l’ai pas tester. 3 ordis dans la pièce de travail ce weekend, 3 linux..) 
+
+Sinon sur Linux on a ça : https://git-scm.com/downloads (souvent déjà installé, sinon par le gestionnaire d’appli, c’est mieux.)
+Installé ? Bravo, passe à l’étape 2.
+
+2-Fais toi un compte sur github.
+Franchement c’est pas dur. Je te laisse faire. Sache juste que si tu choisi un nom c’est un peu relou de le changer, et que ça va être un outil de travail pro.
+3-Le retour de la théorie. (Juste un peu)
+Gît a une gestion des fichiers en arborescence.
+Comme sur un arbre, on va donc avoir une branche principale (ou un tronc quoi). Cette « branch » va par défaut s’appeler « master » ou « main ». Elle sera a la source de tout notre projet.
+Comme sur un arbre, plusieurs branches vont partir de ce « main » (on va les créer ! ). 
+Pourquoi ? Notre objectif est que la branche main reste toujours avec du code propre, fonctionnelle. Pour chaque ajout de fonctionnalités, qui va impliquer des tests, des étapes de développement ou le code ne marchera pas encore, on va créer une nouvelle branche (on dit qu’on « fork »).
+Une fois que le code marche (et seulement une fois que le code marche ) on va pouvoir faire un « merge ». C’est-à-dire lier a nouveau les branches (pas comme un arbre cette fois), en intégrant les nouveautés, changements etc… (c’est le plus compliqué on y reviendra) .
+Dernières notions avant de remettre les mains dans le cambouis : un « commit » et un « push » quesako ?
+Sur notre arbre, il y a des nœuds. Il représente une sorte d’état, de snapshot des fichiers en un point donné. Ce sont les commit. Quand on travail sur un projet, on va faire des commits très régulier. Chaque commit doit être accompagné d’un message très claire sur l’avancé du travail ( j’y reviendrai dans la partie « bon usage de gît en collaboration »). Ces commits permettent aussi de revenir en arrière si on a fais une bourde.
+Quand on va faire ces sortes de snapshot, ou commit, il seront d’abord enregistrer en local uniquement ! Il va donc falloir, régulièrement, les remette au serveurs distants. Ça, c’est un « push ». En gros on commit régulièrement, et quand on a bien avancé ou qu’il est l’heure d’aller dormir, hop on push son travail ! Comme ça même si quelqu’un reverse de la bière sur ton ordi, on perd rien ! 
+Quand on push, l’ensemble des commits depuis le dernier push, sont envoyés sur la branche concerné.
+4- Créer ton premier dépôt, ou « repository ».
+-sur github clique sur « new ». Tu peux le nommer test, le mettre en privé, et il va te proposer de le lier en ssh ou en https a tes dossiers locaux. Apparemment il est plus simple d’utiliser https avec windows, ssh avec linux. Là github t’indique des lignes de commandes pour lier un dossier de travail, au dépôt.
+-fais un dossier « test », où tu veux sur ton pc.
+-Maintenant tu va pouvoir ajouter un fichier dans ton dossier de travail (tu peux prendre un index.html que tu as et le mettre, en graphique dans ton dossier.)
+- avec l’émulateur de commandes git, place toi dans ce dossier. ( cd /chemin/de/ton/dossier)
+C-Reprend les lignes de commandes de github on va les voir une par une. (on ne fait pas ce qui concerne le README.md (on en parlera dans un autre tuto).
+-Créer le dossier .git (il ne faut JAMAIS effacer ce  dossier)
+git init
+ATTENTION il faut toujours indiquer à git ce que tu vas vouloir pusher :
+git add index.html
+-Créer le premier commit ! 
+commit -m "first commit"
+Accompagne ton commit d’une explication, en anglais. Le fichier s’organise comme suit :
+1ere ligne succincte et claire du type « Added buttons in header »
+La 2eme ligne est vide.
+La troisième ligne est une description plus complète. l’ampleur de cette explication dépendra de la quantité de modif effectuée. Ex : « Added two buttons, to link with the contact page and the Home page. Default CSS for our buttons was used. To do : change the padding. »
+-renomme la branche « main », branche principale de votre dépot test.
+git branch -M main
+
+-Lier le dépôt distant au dossier de travail.
+
+git remote add origin 
+git@github.com:milay-na/test2.gitgit push -u origin main
+
+Attention le lien est à récupérer sur github et sera différent selon si vous êtes sur ssh ou https.
+Bravo !!! Vous avez maintenant un dépôt lié à un dossier de travail, une branche principale et un premier commit.
+5-premier push
+On vas dire à git où on va vouloir pusher :
+git push -u origin main
+6-Modifier des éléments du fichier html et faire des nouveaux commit.
+-Faites des modifications dans votre index.html, comme d’hab avec codeVS.
+-une fois les modifs faites on va faire un nouveau commit, mais pour ça, vous vous souvenez il faut ajouter le fichier ! Voici une commande qui permet de vérifier si lors d’un commit, les modifs du fichier sera pris en compte :
+git status
+il doit vous indiquer qu’il y a eu des mofifs non prises en compte. Cette commande est à utiliser sans modération.
+-Ajoutons le fichier html :
+git add index.html
+-faisons notre deuxième commit :
+git commit
+
+N’oublie pas de bien accompagné ton commit d’un message clair, qui respecte les conventions expliqués.
+
+On a bien travaillé, allez on push !
+git push
+7- Voir les dernières modifs 
+On a bien dormi mais on a un peu oublier les modifs d’hier. Voyons ça :
+git log 
+Cette commande liste les commits ainsi que leurs textes associés. Très pratique !
+On voudrais maintenant voir spécifiquement les modifications dans le fichier html, pas seulement la déscription.
+git show numéro-du-commit
+=differences enregistrées sur ce  commit
+aussi
+git diff numero-de-l’ancien-commit numero-du-nouveau-commit
+
+=differences enregistrées entre ces deux  commits
+
+Chaque commit a un numéro, vous devez l’avoir vu apparaître quand vous avez tapé git log. 
+8- Récupérer ce qu’il y a sur github.
+Vincent à bosser toute la nuit, je voudrais récupérer ce qu’il a fait.
+On va utiliser « pull ». Théoriquement, un pull c’est un fetch, puis un merge.
+Mais qu’est qu’elle dit ?
+Un fetch va prendre les commits du distant, au local. Puis ça va synchroniser les fichiers distant au local. Ici il risque d’y avoir des conflits (si Vincent à fait les modifs au mêmes endroits que moi). Ça ne devrait pas trop arriver, puisqu’on gère bien les branche normalement.
+
+9- Nouvelle branche
+On va dire que j’ai du gérer des conflits à la main, c’était chiant. Je vais faire une nouvelle branche pour gérer mes fonctionnalités, tant que mon code est pas propre.
+git branch HTML-Header
+Par convention on nomme les branches avec des tirets entre les mots -. 
+Je vais me mettre sur cette branche
+git checkout  HTML-Header
+ATTENTION une fois qu’on a plusieurs branches, les pull se font individuellement sur chaque branche.
+
+10- Regarder l’arbre
+Ici refaite une petite modif sur notre html, et refaites un commit (tu sais faire maintenant).
+Allons voir à quoi ressemble notre arbre :
+git log - -graph   - - oneline 
+Waah une vision graphique de nos branches.
+
+11- Comment gérer les merge ?
+L’idéale , c’est que sur nos projet, une personne gère les merge. 
+Quand j’ai fini une fonctionnalité, et que je voudrais la joindre au projet, j’utilise le « pull request » sur github. J’accompagne ma demande d’un message, et comme c’est bien fait, on peut échanger sur la demande, et on voit quand le respo git à fait le merge !!
+Il y aura peut être une suite au tuto, pour plus de détails sur les merge...
+Globalement, certains conflits se font à la main, et peuvent se faire en local ou sur github.
+12-Comment récupérer le dépot créer par quelqu’un d’autre ?
+Aller sur le dépôt, sur github, et utiliser l’option « cloner ». Il vous donne un lien https ou ssh, selon votre choix.
+
+Avec le terminal, vous placer dans le dossier d’intérêt. (avec cd) puis tapez :
+git clone lien-donné-par-github 
+Quand on va vouloir pusher dans la branche main :
+git push origin main
+Et voila !
+13- Github à une fonctionnalité pratique : les issues, ils permettent de communiquer, d’indiquer ce qu’il y a a faire, etc..
+
+Règles d’un bon usage de git.
+–	On créer des nouvelles branches afin que le main soit toujours propre.
+–	On commit très souvent (des qu’on peux nommer ce qu’on a fait)
+–	On écrit des messages de commit limpides !!en respectant les conventions d’écritures.
+–	On push régulièrement
+–	On efface JAMAIS le .git (la plupart des erreurs sont rattrapables, pas celle là.)
+–	On est bienveillant dans les communications 
+<3 good luck
+
+
+
+  
+
+
+ 
+
+
+
+ 
+
+
+ 
+
+
+
+
+
+
+
